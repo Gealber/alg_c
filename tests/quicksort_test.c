@@ -26,9 +26,23 @@ void test_partition(void)
 	check_arrs(arr, wanted,arr_length);
 }
 
+void test_randomized_quicksort(void)
+{
+	START("RANDOMIZED_QUICKSORT");
+	int arr[] = {2,8,7,1,3,5,6,4};
+	int wanted[] = {1,2,3,4,5,6,7,8};
+	int arr_length = sizeof(arr)/sizeof(int);
+	assert(arr_length > 0);
+	
+	Randomized_quicksort(arr, 0, arr_length-1);
+	check_arrs(arr, wanted,arr_length);
+}
+
+
 int main(int argc, char *argv[])
 {
 	test_partition();
 	test_quicksort();
+	test_randomized_quicksort();
 	return 0;
 }

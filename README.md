@@ -5,3 +5,4 @@ In case of any error please contact me with no problem.
 ## Algortihms implemented:
 * Heapsort
 * Quicksort
+* Quicksort(Randomized)

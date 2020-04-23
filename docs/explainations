@@ -114,3 +114,7 @@ to Partition acts as a pivot all the array is gonna be sorted.
         ^
        pivot
 
+============================================================================
+RANDOMIZED QUICKSORT
+Just randomized the pivot selection to simulate an average case of a quicksort
+that has a great performance.

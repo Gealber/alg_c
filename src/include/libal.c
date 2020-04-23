@@ -1,6 +1,7 @@
 #include "libal.h"
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <time.h>
 
 /**Max_heapify assumes that the binary trees rooted
  *  at LEFT(i) and RIGHT(i) are max-heaps, but that 
@@ -107,4 +108,25 @@ int Partition(int *arr,int p, int r)
 
 	EXCHANGE(arr[i+1],arr[r]);
 	return i+1;
+}
+
+int Randomized_partition(int *arr, int p, int r)
+{
+	int i =Random(p,r);
+	EXCHANGE(arr[r],arr[i]);
+	return Partition(arr,p,r);
+}
+
+/*A randomized version of quicksort, this is implemented 
+ * because the average-case behavior of quicksort has a good
+ * performance*/
+int Randomized_quicksort(int *arr, int p, int r)
+{
+	int q = 0;
+	if(p < r) {
+		q = Randomized_partition(arr,p,r);
+		Randomized_quicksort(arr,p,q-1);
+		Randomized_quicksort(arr,q+1,r);
+	}
+	return 0;
 }
