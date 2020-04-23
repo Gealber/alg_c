@@ -1,0 +1,46 @@
+This document contains an explanation of each algorithm.
+In case of any error please contact with me :)
+
+====================================================================
+MAX_HEAPIFY:
+This is a the heap to be max-heapify:
+(A) --- |16|4|10|14|7|9|3|2|8|1|
+            ^
+(B) --- |16|14|10|4|7|9|3|2|8|1|
+                            ^
+(C) --- |16|14|10|8|7|9|3|2|4|1|
+
+Which also can be seen in this ugly graphical :?/
+representation:
+			16
+		       /  \
+		     4     10
+(A)		    / \   /  \
+		  14   7 9    3
+	         /  \ /
+		2   8 1
+
+
+
+
+
+			16
+		       /  \
+		     14     10
+(B)		    / \   /  \
+		  4   7 9    3
+	         /  \ /
+		2   8 1
+
+
+
+
+			16
+		       /  \
+		     14     10
+(C)		    / \   /  \
+		   8   7 9    3
+	         /  \ /
+		2   4 1
+
+=======================================================
