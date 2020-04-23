@@ -9,5 +9,6 @@
 int Max_heapify(int a[], int i, int heap_size);
 int Build_max_heap(int *a, int size);
 int Heapsort(int *a, int heap_size);
-	
+int Quicksort(int *a, int p, int r);	
+int Partition(int *a, int p, int r);
 #endif

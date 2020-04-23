@@ -77,3 +77,34 @@ int Heapsort(int *arr, int heap_size)
 
 	return 0;
 }
+
+/*Quicksort perform the quicksort algorithm given an array of ints.
+ * In case of sort the entire array the parameters must to be p=0 and
+ * r=last index of the array*/
+int Quicksort(int *arr, int p, int r)
+{
+	int q = 0;
+	if(p < r) {
+		q = Partition(arr,p,r);
+		Quicksort(arr,p,q-1);
+		Quicksort(arr,q+1,r);
+	}
+	return 0;
+}
+
+int Partition(int *arr,int p, int r)
+{
+	int x = arr[r];
+	int i = p-1;
+	int j = 0;
+
+	for(j = p; j < r; j++) {
+		if(arr[j] <= x) {
+			i++;
+			EXCHANGE(arr[i],arr[j]);
+		}
+	}
+
+	EXCHANGE(arr[i+1],arr[r]);
+	return i+1;
+}
