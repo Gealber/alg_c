@@ -20,6 +20,7 @@ int Build_max_heap(int *a, int size);
 int Heapsort(int *a, int heap_size);
 int Quicksort(int *a, int p, int r);	
 int Partition(int *a, int p, int r);
+int Hoare_partition(int *arr, int p, int r);
 int Randomized_partition(int *a, int p, int r);
 int Randomized_quicksort(int *a, int p, int r);
 #endif

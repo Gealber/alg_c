@@ -110,6 +110,29 @@ int Partition(int *arr,int p, int r)
 	return i+1;
 }
 
+int Hoare_partition(int *arr, int p, int r)
+{
+	int x = arr[p];
+	int i = p - 1;
+	int j = r + 1;
+
+	while (1) {
+		do {
+			i = i + 1;
+		} while (arr[i] < x);
+
+		do {
+			j = j -1;
+		} while (arr[j] > x);
+
+		if(i < j) {
+			EXCHANGE(arr[i], arr[j]);
+		}
+		 return j;
+	}
+	return -1;
+}
+
 int Randomized_partition(int *arr, int p, int r)
 {
 	int i =Random(p,r);

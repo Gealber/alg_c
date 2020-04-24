@@ -114,7 +114,30 @@ to Partition acts as a pivot all the array is gonna be sorted.
         ^
        pivot
 
-============================================================================
+======================================================================================
 RANDOMIZED QUICKSORT
 Just randomized the pivot selection to simulate an average case of a quicksort
 that has a great performance.
+======================================================================================
+Hoare partition is another way to make the partition in a more efficient way.
+The previous partition is known as Lomuto partitioning. In the Hoare partitioning
+instead of set the index i and j at the begining we set this indexes at the extreme
+i at the begining and j at the end. We move toward each other these indexes until
+they detect a pair of elements, one greater or equal than the pivot, one lesser or
+equal. Then these elements are swapped, below I show you the pseudocode:
+
+Hoare_partition(A,p,r)
+pivot = A[p]
+i = p - 1
+j = r + 1
+while True
+	repeat
+		j = j - 1
+	until A[j] <= x
+	repeat 
+		i = i + 1
+	until A[i] >= x
+	if i < j
+		EXCHANGE A[i] and A[j]
+	else return j
+=========================================================================================

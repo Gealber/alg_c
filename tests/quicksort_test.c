@@ -26,6 +26,18 @@ void test_partition(void)
 	check_arrs(arr, wanted,arr_length);
 }
 
+void test_hoare_partition(void)
+{
+	START("HOARE_PARTITION");
+	int arr[] = {2,8,7,1,3,5,6,4};
+	int wanted[] = {1,8,7,2,3,5,6,4};
+	int arr_length = sizeof(arr)/sizeof(int);
+	assert(arr_length > 0);
+
+	Hoare_partition(arr, 0, arr_length - 1);
+	check_arrs(arr, wanted,arr_length);
+}	
+
 void test_randomized_quicksort(void)
 {
 	START("RANDOMIZED_QUICKSORT");
@@ -38,9 +50,9 @@ void test_randomized_quicksort(void)
 	check_arrs(arr, wanted,arr_length);
 }
 
-
 int main(int argc, char *argv[])
 {
+	test_hoare_partition();
 	test_partition();
 	test_quicksort();
 	test_randomized_quicksort();
