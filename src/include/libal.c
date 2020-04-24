@@ -153,3 +153,28 @@ int Randomized_quicksort(int *arr, int p, int r)
 	}
 	return 0;
 }
+
+int Countingsort(int *arr, int *b, int k, int arr_size)
+{
+	int c[k+1];
+	int i = 0;
+	for(i = 0; i < k+1; i++) {
+		c[i] = 0;
+	}
+
+	int j = 0;
+	for(j = 0; j < arr_size; j++) {
+		c[arr[j]]++;
+	}
+
+	for(i = 1; i < k+1; i++) {
+		c[i] = c[i] + c[i-1];
+	}
+
+	for(j = arr_size - 1; j >= 0; j--) {
+		b[c[arr[j]]-1] = arr[j];
+		c[arr[j]]--;
+	}
+	
+	return 0;
+}

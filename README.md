@@ -6,3 +6,4 @@ In case of any error please contact me with no problem.
 * Heapsort
 * Quicksort(Lomuto and Hoare partitioning)
 * Quicksort(Randomized)
+* Counting sort

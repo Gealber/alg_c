@@ -142,3 +142,58 @@ while True
 		EXCHANGE A[i] and A[j]
 	else return j
 =========================================================================================
+COUNTING SORT
+
+First of all this algorithm assume that each of the n inputs are integers in a range of
+[0,k] for some integer k. Also determines the position of a given element an put
+it in the position that correspond. For example if 17 elements are less than x the puts
+x in the position 18. We most modify this scheme slightly to handle the situation in
+which several element have the same values.(This last sentence is from THE BOOK).
+We will need two other arrays, one for hold the sorted output and one for a provisional 
+storage. Let's call them B[1...n] and C[1...k].
+------------------------------------------------
+Pseudocode
+
+Counting_sort(A, B, k)                  
+1.let C[0..k] be a new array
+2.for i=0 to k
+3.	C[i] = 0
+//A-->|2|5|3|0|2|3|0|3|  C-->|0|0|0|0|0|0|
+
+4.for j = 1 to A.length
+5.	C[A[j]] = C[A[j]] + 1
+// A-->|2|5|3|0|2|3|0|3| C-->|2|0|2|3|0|1|
+
+6.for i = 1 to k
+7.	C[i] = C[i] + C[i-1]
+// C-->|2|2|4|7|7|8|
+
+8.for j = A.length downto 1
+9.	B[C[A[j]]] = A[j]
+// first iteration only
+//B-->B[7] = 3
+10.	C[A[j]] = C[A[j]] - 1
+// C[3] = 7-1=6
+
+So let's try to explain what is happening here:
+--------------------------------------------------
+First we initialize the the C[0..k] array with the values zeros values in all its cells. 
+Then like the n elements in the array A are less than k, C[A[j]] is a valid operation.
+Take a look at this operation C[A[j]], A[j] is a number between 0 and k so when you make
+C[A[j]] = C[A[j]] + 1, you are setting a counter to mark how many times a number between 0 and k
+is in the array A. So C[i] contains the number of time a i is in tha array A.
+Now in steps 6 and 7 we got, for example:
+
+C[1] = C[1] + C[0] ---> # of elements equal to 0
+        ^
+        | # of elements equal to 1
+so C[1] contains how many numbers are less than or equal to 1.
+So in steps 6 and 7 we reassign the values of C to contains C[i] the number of elements in A
+less than or equal to i.
+Do you remember the B array which will conatins the input, well now he comes to play its role.
+In steps from 8 to 10 we make two main operations let's look at it in depth:
+B[C[A[j]]] = A[j] here remember that at this point C[A[j]] is equal to the number of elements
+in A that are less than or equal to A[j], so you are going to position A[j] in that position in B.
+More explicit let's say A[j]=5 then C[A[j]]=C[5]=3 tells you that are three elements less than or equal
+to 5 soy A[j] goes in position 3 in the new array B. After that you simple decrese the counter of C[A[j]]
+because we just position one number in the B array.

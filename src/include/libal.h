@@ -23,4 +23,5 @@ int Partition(int *a, int p, int r);
 int Hoare_partition(int *arr, int p, int r);
 int Randomized_partition(int *a, int p, int r);
 int Randomized_quicksort(int *a, int p, int r);
+int Countingsort(int *arr, int *b, int k, int arr_length);
 #endif
