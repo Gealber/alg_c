@@ -119,7 +119,8 @@ RANDOMIZED QUICKSORT
 Just randomized the pivot selection to simulate an average case of a quicksort
 that has a great performance.
 ======================================================================================
-Hoare partition is another way to make the partition in a more efficient way.
+HOARE PARTITION
+This is another way to make the partition in a more efficient way.
 The previous partition is known as Lomuto partitioning. In the Hoare partitioning
 instead of set the index i and j at the begining we set this indexes at the extreme
 i at the begining and j at the end. We move toward each other these indexes until

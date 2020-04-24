@@ -4,5 +4,5 @@ In case of any error please contact me with no problem.
 
 ## Algortihms implemented:
 * Heapsort
-* Quicksort(Lomuto)
+* Quicksort(Lomuto and Hoare partitioning)
 * Quicksort(Randomized)
