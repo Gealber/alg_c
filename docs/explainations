@@ -230,5 +230,6 @@ Randomized_Select(A, p, r, i)
 9.else return Randomized_Select(A, q+1,r,i-k)
 // in another case the answer is in the other subarray so we call again Randomized_Select but in this case with i-k
 It makes sense to me.
+Note: There's a better algorithm for the selection problem but I'm not going to include it, see page 220 of THE BOOK.
 ====================================================================================================================
 
