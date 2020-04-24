@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
+
 
 /**Max_heapify assumes that the binary trees rooted
  *  at LEFT(i) and RIGHT(i) are max-heaps, but that 
@@ -177,4 +179,50 @@ int Countingsort(int *arr, int *b, int k, int arr_size)
 	}
 	
 	return 0;
+}
+
+
+int Minimum(int *a, int a_size) {
+	assert(a_size > 0);
+	int min = a[0];
+	int i = 0;
+	for(i = 1; i < a_size; i++) {
+		if(a[i] < min) {
+			min = a[i];
+		}
+	}
+	return min;
+}
+
+int Maximum(int *a, int a_size) {
+	assert(a_size > 0);
+	int max = a[0];
+	int i = 0;
+	for(i = 1; i < a_size; i++) {
+		if(a[i] > max) {
+			max = a[i];
+		}
+	}
+	return max;
+}
+
+int Randomized_Select(int *arr, int p, int r, int i) 
+{
+	if(p == r) {
+		return arr[p];
+	}
+
+	int q = Randomized_partition(arr,p,r);
+	int k = q-p+1;
+
+	if(i == k) {
+		return arr[q];
+	}
+
+	else if(i < k) {
+		return Randomized_Select(arr, p,q-1,i);
+	}
+	else {
+		return Randomized_Select(arr, q+1, r, i-k);
+	}
 }

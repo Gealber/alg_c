@@ -7,3 +7,4 @@ In case of any error please contact me with no problem.
 * Quicksort(Lomuto and Hoare partitioning)
 * Quicksort(Randomized)
 * Counting sort
+* Randomized Select

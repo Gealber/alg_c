@@ -197,3 +197,38 @@ in A that are less than or equal to A[j], so you are going to position A[j] in t
 More explicit let's say A[j]=5 then C[A[j]]=C[5]=3 tells you that are three elements less than or equal
 to 5 soy A[j] goes in position 3 in the new array B. After that you simple decrese the counter of C[A[j]]
 because we just position one number in the B array.
+=========================================================================================================
+RANDOMIZED SELECT
+
+This algorithm solve the selection problem(page 213 of THE BOOK chapter 9, there is a definition of this
+problem there) with linear expecting running time(I need to find the appropiate symbols to put the big-O notation).
+Like the randomized version of quicksort this algorithm make use also of the randomized partition. 
+-----------------------------------------------------------------------------------------------
+PSEUDOCODE
+
+Randomized_Select(A, p, r, i)
+1.if p == r
+2.	return A[p]
+//base case of recursion
+
+3.q = Randomized_Partition(A,p,r)
+4.k = q - p + 1
+//makes a partition with the randomized partition algorithm to get the pivot
+//so now A[p..r] is divided in two subarrays A[p..q-1] and A[q+1..r]. k just count 
+//how many element we got in the subarray A[p..q-1] plus the pivot A[q].
+
+5.if i == k
+6.	return A[q]
+//now if i = k like all elements in A[p..q-1] are less than or equal to A[q] and A[p..q-1] has
+//k elements including the pivot the the answer is the pivot.
+
+7.elseif i < k
+8.	return Randomized_Select(A, p, q-1, i)
+//if i < k then the answer is inside A[p..q-1] so we call again recursively to Randomized_Select in that
+//array and with this same i.
+
+9.else return Randomized_Select(A, q+1,r,i-k)
+// in another case the answer is in the other subarray so we call again Randomized_Select but in this case with i-k
+It makes sense to me.
+====================================================================================================================
+
