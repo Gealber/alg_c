@@ -9,7 +9,6 @@
 #define EXCHANGE(A,B) {int temp = A; A = B; B = temp;}
 #define UNIFORM() (rand() / (RAND_MAX + 1.0))
 
-
 static inline int Random(int p, int r) {
 	srand(time(NULL));
 	return p + (int)UNIFORM()*(r-p); 
@@ -26,4 +25,5 @@ int Randomized_partition(int *a, int p, int r);
 int Randomized_quicksort(int *a, int p, int r);
 int Countingsort(int *arr, int *b, int k, int arr_length);
 int Randomized_Select(int *arr, int p, int r,int i);
+
 #endif

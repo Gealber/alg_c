@@ -2,6 +2,7 @@
 #define _minitest_h
 #include <assert.h>
 #include <stdio.h>
+#include <errno.h>
 
 
 #define START(A) {\
@@ -15,9 +16,11 @@ static inline int check_arrs(int a[], int b[], int size)
 		assert(a[i] == b[i]);
 		//printf("a[%d]=%d b[%d]=%d\n",i,a[i],i,b[i]);
 	}
-	printf("PASSED\n");
+	printf("\33[0;32mPASSED\33[0m\n");
 	return 0;
 }
 
+#define mu_assert(test, message) if(!(test)) {printf("%s\n\33[0;31mFAILED\33[0m",message);errno == 0 ? "None" : strerror(errno);}
+#define PASSED(A) if(!(A)) {printf("\33[0;32mPASSED\33[0m\n");}
 
 #endif

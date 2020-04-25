@@ -12,7 +12,7 @@ void test_randomized_select(void)
 
 	int result = Randomized_Select(arr,p,r,i);
 	assert(result == wanted);
-	printf("PASSED\n");
+	printf("\33[0;32mPASSED\33[0m\n");
 }
 
 int main(int argc, char *argv[])
