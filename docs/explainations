@@ -237,3 +237,8 @@ First will be implementing a Stack with the following methods:
 *Stack-empty
 *Push
 *Pop
+====================================================================================================================
+QUEUE(FIFO-->First-in,first-out)
+*Enqueue
+*Dequeue
+
