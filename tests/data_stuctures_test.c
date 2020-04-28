@@ -1,11 +1,13 @@
 #include "minitest.h"
 #include "stack.c"
 #include "queue.c"
+#include "list.c"
 #include <assert.h>
 
 
 static Stack *stack = NULL;
 static Queue *queue = NULL;
+static List *list = NULL;
 
 char *test_stack_create(void)
 {
@@ -86,7 +88,39 @@ char *test_enqueue_dequeue(void)
 	return NULL;
 }
 
+char *test_linked_list_create(void)
+{
+	START("LINKED LIST CREATION");
+	list = List_create();
+	mu_assert(list != NULL, "Failure in creation if list");
+	return NULL;
+}
 
+char *test_list_operations(void)
+{
+	START("LIST OPERATIONS");
+	list = List_create();
+	int *val1 = calloc(1,sizeof(int));
+	*val1 = 1;
+	int *val2 = calloc(1,sizeof(int));
+	*val2 = 2;
+
+
+	/*Inserting value*/
+	List_insert(list,val1);
+	List_insert(list,val2);
+	
+	/*Searching value*/
+	ListNode *node = List_search(list,val2);
+	mu_assert(node != NULL, "Nothing found");
+	mu_assert(node->key == val2,"Failed to find element");
+	
+	/*Delete from list*/
+	List_delete(list,node);
+	node = List_search(list,val2);
+	mu_assert(node == NULL, "Return something weird");
+	return NULL;
+}
 
 int main(int argc, char *argv[])
 {
@@ -94,5 +128,7 @@ int main(int argc, char *argv[])
 	PASSED(test_stack_pp());
 	PASSED(test_create_queue());
 	PASSED(test_enqueue_dequeue());
+	PASSED(test_linked_list_create());
+	PASSED(test_list_operations());
 	return 0;
 }

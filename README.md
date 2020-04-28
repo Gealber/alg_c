@@ -8,6 +8,8 @@ In case of any error please contact me with no problem.
 * Quicksort(Randomized)
 * Counting sort
 * Randomized Select
+
 ## Data structures implementation:
 * Stack
 * Queue
+* Linked list

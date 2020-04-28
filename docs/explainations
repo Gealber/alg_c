@@ -241,4 +241,9 @@ First will be implementing a Stack with the following methods:
 QUEUE(FIFO-->First-in,first-out)
 *Enqueue
 *Dequeue
-
+====================================================================================================================
+LINKED LIST(DOUBLE)
+*Insert
+*Delete
+*Search
+====================================================================================================================
