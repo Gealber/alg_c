@@ -1,6 +1,7 @@
 #include "rbtree.h"
 
 /*This file contains an implementation of a Red Black Tree.
+ * Many of the methods are from LCTHW, thanks Zed.
  * Red Black Tree properties:
  * 1. Every node is either red or black.
  * 2. The root is black.
@@ -17,7 +18,7 @@ RB_Tree *Create_rbtree(RB_Tree_compare cmp)
 	check_mem(T);
 	
 	if (!cmp) {
-		fprintf("You should provide a compare function\n");
+		printf("You should provide a compare function\n");
 		goto error;
 	}
 	
@@ -39,13 +40,11 @@ RB_Node *Create_rbtree_node(RB_Node *parent, void *key, char color)
 	node->parent = parent;
 	return node;	
 error:
-	if (node) 
-		Destroy_rbtree_node(node);
-	return NULL
+	return NULL;
 }
 
-/*Destroy_rbtree_node: free up the memory hold by the given node.*/
-int Destroy_rbtree_node(RB_Node *node)
+/*RB_destroy_cb: free up the memory hold by the given node.*/
+int RB_destroy_cb(RB_Node *node)
 {
 	free(node);
 	return 0;
@@ -54,7 +53,46 @@ int Destroy_rbtree_node(RB_Node *node)
 /*Destroy_rbtree: free up the memory reserved by the given tree.*/
 void Destroy_rbtree(RB_Tree *T)
 {
-	return;
+	if (T) {
+		RB_Tree_traverse(T, RB_destroy_cb);
+		free(T);
+	}
+}
+
+/*RB_Tree_traverse_nodes: traverse the subtree of a node and call
+ * treverse_cb when it reach the bottom. So it will free up memory
+ * from the bottom to the top.*/
+int RB_Tree_traverse_nodes(RB_Node *node, RB_traverse_cb traverse_cb)
+{
+	int rc = 0;
+
+	if (node->left) {
+		rc = RB_traverse_nodes(node->left, traverse_cb);
+		if (rc != 0) return rc;
+	}
+
+	if (node->right) {
+		rc = RB_Tree_traverse_nodes(node->right, traverse_cb);
+		if (rc != 0) return rc;
+	}
+
+	return traverse_cb(node);
+}
+
+/*RB_Tree_traverse: go through the node of the rbtree.*/
+int RB_Tree_traverse(RB_Tree *T, RB_traverse_cb traverse_cb)
+{
+	if (T->root)
+		return RB_Tree_traverse_nodes(T->root, traverse_cb);
+	return 0;
+}
+
+/*Tree_minimum: find and return the minimum node.*/
+RB_Node *Tree_minimum(RB_Node *node)
+{
+	while(node->left)
+	       node = node->left;
+	return node;
 }
 
 /*Left_rotate: update the node according to a left rotation.*/
@@ -62,11 +100,11 @@ void Left_rotate(RB_Tree *T, RB_Node *x)
 {
 	RB_Node *y = x->right;
 	x->right = y->left;
-	if (y->left != T->sentinel)
+	if (y->left != NULL)
 		y->left->parent = x;
 	
 	y->parent = x->parent;
-	if (x->parent == T->sentinel)
+	if (x->parent == NULL)
 		T->root = y;
 	else if (x == x->parent->left)
 		x->parent->left = y;
@@ -82,11 +120,11 @@ void Right_rotate(RB_Tree *T, RB_Node *y)
 {
 	RB_Node *x = y->left;
 	y->left = x->right;
-	if (x->right != T->sentinel)
+	if (x->right != NULL)
 		x->right->parent = y;
 	
 	x->parent = y->parent;
-	if (y->parent == T->sentinel)
+	if (y->parent == NULL)
 		T->root = x;
 	else if (y == y->parent->right)
 		y->parent->right = x;
@@ -100,37 +138,34 @@ void Right_rotate(RB_Tree *T, RB_Node *y)
 /*RB_insert: insert the given node into the RB_Tree and update the color.*/
 void RB_insert(RB_Tree *T, RB_Node *z)
 {
-	y = T->sentinel;
-	x = T->root;
-	while (x != T->sentinel) {
+	RB_Node *y = NULL;
+	RB_Node *x = T->root;
+	while (x != NULL) {
 		y = x;
-		if (T->compare(z->key, x->key) == -1)
+		if (T->cmp(z->key, x->key) == -1)
 			x = x->left;
 		else
 			x = x->right;
 	}
 
 	z->parent = y;
-	if (y == T->sentinel)
+	if (y == NULL)
 		T->root = z;
-	else if (T->compare(z->key, y->key) == -1)
+	else if (T->cmp(z->key, y->key) == -1)
 		y->left = z;
 	else
 		y->right = z;
-	z->left = T->sentinel;
-	z->right = T->sentinel;
+	z->left = NULL;
+	z->right = NULL;
 	z->color = 'r';
 	RB_insert_fixup(T, z);
 }
 
 /*choose_side:to avoid repetition nothing magic. 0 is left and
  * anyother number is right.*/
-void choose_side(RB_Node *z, int side)
-{
-	if (side == 0)
-		RB_Node *y = z->parent->parent->left;
-	else
-		RB_Node *y = z->parent->parent->right;
+void choose_side(RB_Tree *T, RB_Node *z, int side)
+{	
+	RB_Node *y = side == 0 ? z->parent->parent->left : z->parent->parent->right;
 	RB_Node *nephew_side = side == 0? z->parent->left: z->parent->right;
 
 	if (y->color == 'r') {
@@ -149,15 +184,15 @@ void choose_side(RB_Node *z, int side)
 	}
 }	
 
-/*RB_insert_fixup: fix the tree in a way that hold the properties of a RB_Tree->
- * This is the most magic method->*/
+/*RB_insert_fixup: fix the tree in a way that hold the properties of a RB_Tree.
+ * This is the most magic method.*/
 void RB_insert_fixup(RB_Tree *T, RB_Node *z)
 {
 	while (z->parent->color == 'r') {
 		if (z->parent == z->parent->parent->left)
-			choose_side(z, 0);
+			choose_side(T, z, 0);
 		else 
-			choose_side(z, 1);
+			choose_side(T, z, 1);
 	}
 	T->root->color = 'b';
 }
@@ -166,7 +201,7 @@ void RB_insert_fixup(RB_Tree *T, RB_Node *z)
  * This method is meant to be used by RB_Tree_delete.*/
 void RB_Transplant(RB_Tree *T, RB_Node *u, RB_Node *v)
 {
-	if (u->parent == T->sentinel) 
+	if (u->parent == NULL) 
 		T->root = v;
 	else if (u == u->parent->left)
 		u->parent->left = v;
@@ -176,3 +211,85 @@ void RB_Transplant(RB_Tree *T, RB_Node *u, RB_Node *v)
 }
 
 /*RB_Delete: delete a given node from the Red-Black Tree.*/
+void RB_Delete(RB_Tree *T, RB_Node *z)
+{
+	RB_Node *y = z, *x = z->right;
+	char y_origin_color = y->color;
+
+	if (z->left == NULL) {
+		x = z->right;
+		RB_Transplant(T, z, z->right);
+	} else if (z->right == NULL) {
+		x = z->left;
+		RB_Trasnplant(T, z, z->left);
+	} else {
+		y = Tree_minimum(z->right);
+		y_origin_color = y->color;
+		x = y->right;
+		
+		if (y->parent == z)
+			x->parent = y;
+		else {
+			RB_Transplant(T, y, y->right);
+			y->right = z->right;
+			y->right->parent = y;
+		}
+		RB_Transplant(T, z, y);
+		y->left = z->left;
+		y->left->parent = y;
+		y->color = z->color;
+	}
+
+	if (y_origin_color == 'b')
+		RB_Delete_fixup(T, x);
+}
+
+/*restore_by_side: restore the properties according to the side of the node.
+ * If it is a right child or a left one.*/
+void restore_by_side(RB_Tree *T, RB_Node *x, int side)
+{
+	RB_Node *w = side == 0? x->parent->left : x->parent->right; 
+	if (w->color = 'r') {
+		w->color = 'b';
+		x->parent->color = 'r';
+		Left_rotate(T, x->parent);
+		w = side == 0 ? x->parent->left : x->parent->right;
+	}
+	if (w->left->color == 'b' && w->right->color == 'b') {
+		w->color = 'r';
+		x = x->parent;
+	} else {
+		char color_side = side == 0? w->left->color : w->right->color;
+		if (color_side == 'b') {
+			if (side == 0)
+				w->right->color = 'b';
+			else
+				w->left->color = 'b';
+			w->color = 'r';
+			Right_rotate(T, w);
+			w = side == 0 ? x->parent->left : x->parent->right;
+		}
+		w->color = x->parent->color;
+		x->parent->color = 'b';
+		if (side == 0)
+			w->left->color = 'b';
+		else
+			w->right->color = 'b';
+		Left_rotate(T, x->parent);
+		x = T->root;
+	}
+	
+}
+
+/*RB_Delete_fixup: restore the properties of the rbtree.*/
+void RB_Delete_fixup(RB_Tree *T, RB_Node *x)
+{
+	while (x != T->root && x->color == 'b') {
+		if (x == x->parent->left) //check if it is a left child
+			restore_by_side(T, x, 1);
+		else 
+			restore_by_side(T, x, 0);
+		
+	}
+	x->color = 'b';
+}
