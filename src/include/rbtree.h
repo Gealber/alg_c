@@ -6,9 +6,9 @@ typedef int (*RB_Tree_compare)(void *a, void *b);
 typedef struct RB_Node {
 	char color;
 	void *key;
-	RB_Node *left;
-	RB_Node *right;
-	RB_Node *parent;
+	struct RB_Node *left;
+	struct RB_Node *right;
+	struct RB_Node *parent;
 } RB_Node;
 
 typedef struct RB_Tree {

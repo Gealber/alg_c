@@ -4,25 +4,6 @@
 #include <time.h>
 #include <assert.h>
 
-
-/*binary search for a element in an sorted array
- * of positive elements*/
-int binsearch(int *arr, int size_arr, int element)
-{
-	int low, mid, high;
-	while(low <= high) {
-		mid = (low+high) / 2;
-		if (element < mid) {
-			high = mid - 1;
-		} else if (element > mid) {
-			low = mid + 1;
-		} else {
-			return mid;
-		}
-	}
-	return -1;
-}	
-
 /**Max_heapify assumes that the binary trees rooted
  *  at LEFT(i) and RIGHT(i) are max-heaps, but that 
  *  a(i) might be smaller than its children.
