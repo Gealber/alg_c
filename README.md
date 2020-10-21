@@ -13,3 +13,4 @@ In case of any error please contact me with no problem.
 * Stack
 * Queue
 * Linked list
+* Red Black Tree

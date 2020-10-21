@@ -11,7 +11,7 @@
  * 4. If a node is red, then both its children are black.
  * 5. For each node, all simple path from the node to descendent leaves contain
  * 	the same number of black nodes.
- * This properties is from The Book.*/
+ * */
 
 /*default_compare: just do the int comparition.*/
 static int default_compare(void *a, void *b)
